@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Test (Node.js & Python)</title>
+  </head>
+  <body>
+    <h1>API Test with Node.js and Python</h1>
+
+    <div>
+      <h2>Test Node.js API</h2>
+      <button id="callNodeApiButton">Call Node.js API</button>
+      <p id="nodeApiResponse"></p>
+    </div>
+
+    <div>
+      <h2>Test Python API</h2>
+      <button id="callPythonApiButton">Call Python API</button>
+      <p id="pythonApiResponse"></p>
+    </div>
+
+    <script>
+      // Node.js API 호출
+      document
+        .getElementById("callNodeApiButton")
+        .addEventListener("click", function () {
+          fetch("http://<NODE-ALB-DNS>/api") // Node.js API가 배포된 ALB 주소
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById(
+                "nodeApiResponse"
+              ).innerText = `Node.js API Response: ${JSON.stringify(data)}`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById("nodeApiResponse").innerText =
+                "Error calling Node.js API";
+            });
+        });
+
+      // Python API 호출
+      document
+        .getElementById("callPythonApiButton")
+        .addEventListener("click", function () {
+          fetch("http://<PYTHON-ALB-DNS>/api") // Python API가 배포된 ALB 주소
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById(
+                "pythonApiResponse"
+              ).innerText = `Python API Response: ${JSON.stringify(data)}`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById("pythonApiResponse").innerText =
+                "Error calling Python API";
+            });
+        });
+    </script>
+  </body>
+</html>
